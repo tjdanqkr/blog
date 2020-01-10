@@ -1,0 +1,10 @@
+{
+    "development" : {
+        "username": "tjdan",
+        "password": "1q2w3e4r",
+        "database": "test",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "dialect": "mysql"
+    }
+}
