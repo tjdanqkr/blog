@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import myhe from '../img/header.jpg'
-import './header.css'
+import './header.scss'
 
 
 class header extends Component{

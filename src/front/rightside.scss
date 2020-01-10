@@ -1,0 +1,33 @@
+.rightside{
+    display: inherit;
+    position: relative;
+    float: right;
+    width: 332px;
+    input{
+        
+        flex: 1;
+        outline: 1.1rem;
+        border: none;
+        background: transparent;
+        border-bottom: 1px solid #13a026;
+        &:focus{
+            border-bottom: 1px solid #ff0000;
+        }
+    }
+    button{
+        width: 5rem ;
+        height: 2rem;
+        margin-left: 2rem;
+        border: 1px solid #000000;
+        color: #000000;
+        font-weight: 500;
+        font-size: 1rem;
+        
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        &:hover{
+            background : #ffffff
+        }
+    }
+}
