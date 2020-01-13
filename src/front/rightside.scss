@@ -1,4 +1,5 @@
 .rightside{
+    font-family: "Apple SD Gothic Neo", "Malgun Gothic", "Nanum Gothic", Dotum, sans-serif;
     display: inherit;
     position: relative;
     float: right;
@@ -29,5 +30,9 @@
         &:hover{
             background : #ffffff
         }
+    }
+    h1{
+        color: palegoldenrod;
+        padding-left: 50px;
     }
 }
