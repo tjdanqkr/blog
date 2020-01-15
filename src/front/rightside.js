@@ -9,11 +9,13 @@ class leftside extends Component {
           list1 : [],
         }
       }
-      componentWillMount() {
-        this._getData();
-        
+      componentDidUpdate(){
+          console.log('componentDidUpdate');
       }
-      _getData = async () => {
+      getSnapshotBeforeUpdate(){
+        this._getData();
+    }
+      _getData1 = async () => {
         const res = await axios.get('/new/data');
         
         if(res.data[0] === undefined) {
@@ -62,19 +64,14 @@ class leftside extends Component {
             <div className="rightside">
                 <input value={value} onChange={this.handleChang} onKeyPress={this.handlekey}></input>
                 <button onClick={this.onsel}> 검색</button>
-
                 <h1>최신글</h1>
                 {list1.length !== 0 ? list1.map( (el, key) => {
                         return(
-                            <h2 key={key}>{el.title}</h2>
+                            <a key={key}>{el.title}</a>
                         )
                   }) : (<h2>없습니다.</h2>) 
                 }
             </div>
-            
-            
-                    
-                
             
         );
     }

@@ -10,10 +10,10 @@ class header extends Component{
         this.state = {
           list : [],
         }
+        
       }
     componentWillMount() {
         this._getData();
-        
       }
     _getData = async () => {
         const res = await axios.get('/header/data');
@@ -30,20 +30,15 @@ class header extends Component{
         const { list } = this.state;
         return(
             <div className= "header">
-                {list.length !== 0 ? list.map( (el, key) => {
+                 {list.length !== 0 ? list.map( (el, key) => {
                     console.log(el.png);
-                    return(
-                        
-                            
-                            <img src={el.png} alt="header img" key={key} ></img> 
-                        
+                    return(  
+                            <img src={el.png} alt="header img" key={key}></img> 
                     )
               }) : 
                 
                 <img src={myhe} alt="header img"></img> 
-            }
-                
-                
+            } 
             </div>
         )
     }

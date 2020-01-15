@@ -34,6 +34,12 @@ let sequelize = new Sequelize(
     });
 
 db.secret = '(9*)5$&!3%^0%^@@2$1!#5@2!4';
-db.Board = require('./board')(sequelize, Sequelize);
+
 db.Header = require('./header')(sequelize, Sequelize);
+db.Category = require('./category')(sequelize, Sequelize);
+db.Board = require('./board')(sequelize, Sequelize);
+db.Category.hasMany(db.Board,{
+  foreignKey: 'category',
+  sourceKey : 'id'
+})
 module.exports = db;
