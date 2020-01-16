@@ -4,16 +4,23 @@ import './header.scss';
 import axios from 'axios';
 
 
+
+
 class header extends Component{ 
     constructor(props) {
         super(props)
         this.state = {
           list : [],
+          list1 : [],
+          list2 :[],
+          key : ''
         }
-        
+       
       }
     componentWillMount() {
         this._getData();
+        this._getData1();
+        this._getData2();
       }
     _getData = async () => {
         const res = await axios.get('/header/data');
@@ -26,20 +33,112 @@ class header extends Component{
         }
         this.setState({ list : res.data });
       }
+      handleChang = (e) =>{
+        const {value}= e.target;
+        this.setState({
+            value: value
+        });
+        
+    }
+    onsel = () =>{
+        const {value} = this.state;
+        this.setState({
+            value: value
+        })  
+    }
+    handlekey = (e) => {
+        
+        if(e.key === 'Enter'){
+            this.onsel();
+        }
+    }
+    
+    _getData1 = async () => {
+        const res = await axios.get('/new/data');
+        
+        if(res.data[0] === undefined) {
+          let cover = [];
+          cover.push(res.data);
+            
+          return this.setState({ list1 : cover })
+        }
+        this.setState({ list1 : res.data });
+        
+      }
+
+      _getData2 = async () => {
+        const res = await axios.get('/all/data');
+        
+        if(res.data[0] === undefined) {
+          let cover = [];
+          cover.push(res.data);
+
+          return this.setState({ list2 : cover })
+        }
+        this.setState({ list2 : res.data });
+      }
+      _getData3 = async () => {
+        
+        const res = await axios.get('/se/data');
+        
+        if(res.data[0] === undefined) {
+          let cover = [];
+          cover.push(res.data);
+
+          return this.setState({ list2 : cover })
+        }
+        this.setState({ list2 : res.data });
+      }
+      
+      
     render(){
         const { list } = this.state;
+        const value = this.value;
+        const { list2 } = this.state;
+        const { list1 } = this.state;
+        
         return(
-            <div className= "header">
-                 {list.length !== 0 ? list.map( (el, key) => {
-                    console.log(el.png);
-                    return(  
-                            <img src={el.png} alt="header img" key={key}></img> 
-                    )
-              }) : 
+            <div>
+                <div className= "header">
+                     {list.length !== 0 ? list.map( (el, key) => {
+                        
+                        return(  
+                            <a href="/" key={key}><img src={el.png} alt="header img"  ></img> </a>
+                        )
+                    }) : 
                 
-                <img src={myhe} alt="header img"></img> 
-            } 
+                    <a href="/"><img src={myhe} alt="header img"></img> </a>
+                    } 
+                </div>
+                <div className="rightside">
+                    <input value={value} onChange={this.handleChang} onKeyPress={this.handlekey}></input>
+                    <button onClick={this.onsel}> 검색</button>
+                    <h1>최신글</h1>
+                    {list1.length !== 0 ? list1.map( (el, key) => {
+                        return(
+                            <div className="new" key={key}>
+                                <a href={el.id}> {el.title}</a><br></br> 
+                                 
+                            </div>
+                        )
+                    }) : (<h2>없습니다.</h2>) 
+                 }
             </div>
+            <div className="main">
+                {list2.length !== 0 ? list2.map( (el, key) => {
+                        
+                        return(
+                            <div className="gul" key={key}>
+                                <h1>{el.title}</h1><p>카테고리 : {el.category}</p><br></br>
+                                <p>내용: {el.content} </p>
+                                <p>시간: {el.atime}</p>
+                            </div>
+                        )
+                    }) : (<h2>없습니다.</h2>) 
+                 }
+                
+            </div>
+        </div>
         )
     }
 }

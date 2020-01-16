@@ -6,7 +6,11 @@ body {
   font-size: 12px;
   font-family: Dotum,'돋움',Helvetica,"Apple SD Gothic Neo",sans-serif;
 }
-
+body a{
+  text-decoration: none;
+  padding: 0.3em 0.5em;
+  color:blue;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

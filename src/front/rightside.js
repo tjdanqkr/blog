@@ -10,11 +10,9 @@ class leftside extends Component {
         }
       }
       componentDidUpdate(){
-          console.log('componentDidUpdate');
-      }
-      getSnapshotBeforeUpdate(){
         this._getData();
-    }
+      }
+      
       _getData1 = async () => {
         const res = await axios.get('/new/data');
         

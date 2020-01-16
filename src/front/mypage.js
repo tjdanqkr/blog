@@ -9,8 +9,6 @@ class mypage extends Component{
                 <Header></Header>
                 
                 
-                <Leftside></Leftside>
-                
             </div>
         )
     }
