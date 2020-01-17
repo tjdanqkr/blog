@@ -45,14 +45,26 @@ app.get('/new/data',(req, res) => {
 
 
 app.get('/all/data',(req, res) => {
+    console.log(req.body)
     sequelize.query('select a.id,a.title,b.category,a.content,atime from boards as a,categories as b').spread(function (results, metadata) {
             res.send(results)
         }, 
         function (err) { 
-            // 쿼리 실행 에러 
+            console.log('err => ' + err);
         });
 })
-
+app.post('/se/data',(req, res) => {
+    console.log(req.body)
+    sequelize.query('select a.id,a.title,b.category,a.content,atime from boards as a,categories as b where id ='+req.body).spread(function (results, metadata) {
+        res.send(results)
+    },
+    function(err){
+        console.log('err=>'+err)
+    });
+})
+app.post('/add/data', (req, res) => {
+    console.log(req.body)
+})
 // app.get('/sebu/data',(req, res) => {
 //     Board.findAll()
 //     .then(result => {res.send(result)})

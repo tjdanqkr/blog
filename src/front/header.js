@@ -13,7 +13,8 @@ class header extends Component{
           list : [],
           list1 : [],
           list2 :[],
-          key : ''
+          list3 :[],
+          idv : ''
         }
        
       }
@@ -77,17 +78,35 @@ class header extends Component{
         }
         this.setState({ list2 : res.data });
       }
-      _getData3 = async () => {
+      _getData3 = async(e) => {
+        console.log(e.target.value)
+        this.setState({ idv : e.target.value })
+        console.log(1);
+        const {idv} = this.state;
         
-        const res = await axios.get('/se/data');
+        
+        e.preventDefault();
+        console.log({idv});
+        const res = await axios ('/se/data',{
+            method:'POST',
+            data : {'data':idv},
+            headers: new Headers()
+        })
+        console.log({idv});
+        if(res.data) {
+            console.log({idv});
+            alert('데이터를 추가했습니다.');
+            return window.location.reload();
+          }
         
         if(res.data[0] === undefined) {
           let cover = [];
           cover.push(res.data);
 
-          return this.setState({ list2 : cover })
+          return this.setState({ list3 : cover })
         }
-        this.setState({ list2 : res.data });
+        this.setState({ list3 : res.data });
+        
       }
       
       
@@ -117,8 +136,10 @@ class header extends Component{
                     {list1.length !== 0 ? list1.map( (el, key) => {
                         return(
                             <div className="new" key={key}>
-                                <a href={el.id}> {el.title}</a><br></br> 
-                                 
+                                <form method = 'POST' onSubmit={this._getData3} value={el.id}>
+                                    <input type='hidden' value={el.id}></input>
+                                    <input type="submit" value={el.title}></input><br></br> 
+                                </form>
                             </div>
                         )
                     }) : (<h2>없습니다.</h2>) 
@@ -138,6 +159,7 @@ class header extends Component{
                  }
                 
             </div>
+            <button onClick=''></button>
         </div>
         )
     }
