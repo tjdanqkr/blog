@@ -9,6 +9,7 @@ app.use(express.json());
 const {
     Header,
     Board,
+    Admin,
     Sequelize: { Op }
   } = require('./models');
 sequelize.query('SET NAMES utf8;');
@@ -55,7 +56,32 @@ app.get('/all/data',(req, res) => {
 })
 app.post('/se/data',(req, res) => {
     console.log(req.body)
-    sequelize.query('select a.id,a.title,b.category,a.content,atime from boards as a,categories as b where id ='+req.body).spread(function (results, metadata) {
+    sequelize.query('select a.id,a.title,b.category,a.content,atime from boards as a,categories as b where a.id = '+req.body.data).spread(function (results, metadata) {
+        res.send(results)
+    },
+    function(err){
+        console.log('err=>'+err)
+    });
+})
+app.post('/categoryse/data',(req, res) => {
+    console.log(req.body)
+    sequelize.query('select a.id,a.title,b.category,a.content,atime from boards as a,categories as b where b.id = '+req.body.data).spread(function (results, metadata) {
+        res.send(results)
+    },
+    function(err){
+        console.log('err=>'+err)
+    });
+})
+app.get('/category/data',(req, res) => {
+    sequelize.query('select * from categories').spread(function (results, metadata) {
+        res.send(results)
+    },
+    function(err){
+        console.log('err=>'+err)
+    });
+})
+app.post('/sel/data',(req, res) => {
+    sequelize.query('select a.id,a.title,b.category,a.content,atime from boards as a,categories as b where a.title like "%'+req.body.data+'%"').spread(function (results, metadata) {
         res.send(results)
     },
     function(err){

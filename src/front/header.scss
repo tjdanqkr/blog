@@ -7,8 +7,13 @@
     border-bottom: 2px solid #ffffff;
     margin-bottom: 5rem;
 }
+.body{
+    margin-left: auto;
+    margin-right: auto;
+}
 .main{
     margin-left: 15em;
+    margin-right: 30em;
 }
 .rightside{
     font-family: "Apple SD Gothic Neo", "Malgun Gothic", "Nanum Gothic", Dotum, sans-serif;
@@ -27,7 +32,7 @@
             border-bottom: 1px solid #ff0000;
         }
     }
-    button{
+    .select button{
         width: 5rem ;
         height: 2rem;
         margin-left: 2rem;
@@ -46,6 +51,37 @@
     h1{
         color: palegoldenrod;
         padding-left: 50px;
+    }.new{
+        button{
+            width:100px;
+            background-color:none;
+            border: none;
+            color:#000000;
+            text-align: center;
+            text-decoration: none;
+            border-radius:10px;
+            display: inline-block;
+            font-size: 15px;
+            margin: 4px;
+            cursor: pointer;
+            border-bottom: 1px solid #ddd;
+        }
+    }.category button{
+        width:100px;
+        background-color:none;
+        border: none;
+        color:#000000;
+        text-align: center;
+        text-decoration: none;
+        border-radius:10px;
+        display: inline-block;
+        font-size: 15px;
+        margin: 4px;
+        cursor: pointer;
+        border-bottom: 1px solid #ddd;
     }
     
+}
+ul{
+    list-style: none;
 }

@@ -8,6 +8,8 @@ const config = require(path.join(__dirname, '..', 'db', 'db.json'))[
     env
   ];
 const db = {};
+
+//db 연결
 let sequelize = new Sequelize(
     config.database,
     config.username,
@@ -34,10 +36,11 @@ let sequelize = new Sequelize(
     });
 
 db.secret = '(9*)5$&!3%^0%^@@2$1!#5@2!4';
-
+//테이블 생성
 db.Header = require('./header')(sequelize, Sequelize);
 db.Category = require('./category')(sequelize, Sequelize);
 db.Board = require('./board')(sequelize, Sequelize);
+db.Admin = require('./admin')(sequelize, Sequelize);
 db.Category.hasMany(db.Board,{
   foreignKey: 'category',
   sourceKey : 'id'
