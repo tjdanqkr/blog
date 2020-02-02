@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import myhe from '../img/header.jpg';
 import './header.scss';
 import axios from 'axios';
+import Login from './login';
+import Loginsusses from './loginsusses';
+import Boardinput from './boardinput';
 
 
 
@@ -15,7 +18,10 @@ class header extends Component {
       list2: [],
       list3: [],
       selist: [],
-      idv: ''
+      idv: '',
+      mkbool: false,
+      login : false,
+      boardp: false
     }
 
   }
@@ -147,7 +153,24 @@ class header extends Component {
     this.setState({ list3: res.data });
 
   }
-
+  mkgul = (e) =>{
+    this.setState({ mkbool : true });
+    if(this.state.mkbool==false){
+      return 0;
+    }
+    
+  }
+  loact = (plag) =>{
+    this.setState({ login:plag });
+    
+  }
+  logout =(plag) =>{
+    this.setState({login:plag});
+  }
+  boardpl =(plag) =>{
+    this.setState({boardp:plag});
+    
+  }
 
   render() {
     const { list } = this.state;
@@ -155,6 +178,9 @@ class header extends Component {
     const { list2 } = this.state;
     const { list1 } = this.state;
     const { list3 } = this.state;
+    const {mkbool} =this.state;
+    const {login} =this.state;
+    const {boardp}=this.state;
     return (
       <div>
         <div className="header">
@@ -195,12 +221,24 @@ class header extends Component {
                 }) : (<li>없습니다.</li>)
                 }</ul>
             </div>
-            <div>
-              <a>로그인</a>
+            <div className ="mk">
+              {login? <Loginsusses logout={this.logout} boardpl={this.boardpl}></Loginsusses> :<button onClick={this.mkgul}>로그인</button>}
+              
             </div>
           </div>
           <div className="main">
-            {list2.length !== 0 ? list2.map((el, key) => {
+            {mkbool ? boardp? (<Boardinput category={list3}></Boardinput>):login?(list2.length !== 0 ? list2.map((el, key) => {
+              
+              return (
+                <div className="gul" key={key}>
+                  <h1>{el.title}</h1><p>카테고리 : {el.category}</p><br></br>
+                  <p>내용: {el.content} </p>
+                  <p>시간: {el.atime}</p>
+                </div>
+              )
+            }): (<h2>없습니다.</h2>)) :(<Login loginac={this.loact}></Login>):
+            (list2.length !== 0 ? list2.map((el, key) => {
+              
               return (
                 <div className="gul" key={key}>
                   <h1>{el.title}</h1><p>카테고리 : {el.category}</p><br></br>
@@ -209,7 +247,7 @@ class header extends Component {
                 </div>
               )
             }) : (<h2>없습니다.</h2>)
-            }
+            )}
 
           </div>
 

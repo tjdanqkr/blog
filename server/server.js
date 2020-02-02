@@ -88,6 +88,15 @@ app.post('/sel/data',(req, res) => {
         console.log('err=>'+err)
     });
 })
+app.post('/loginact/data',(req, res) => {
+    
+    sequelize.query("select * from admins where userid='"+req.body.data+ "'and pass ='"+req.body.data2+"';").spread(function (results, metadata) {
+        res.send(results)
+    },
+    function(err){
+        console.log('err=>'+err)
+    });
+})
 app.post('/add/data', (req, res) => {
     console.log(req.body)
 })
