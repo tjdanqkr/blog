@@ -47,7 +47,7 @@ app.get('/new/data',(req, res) => {
 
 app.get('/all/data',(req, res) => {
     console.log(req.body)
-    sequelize.query('select a.id,a.title,b.category,a.content,atime from boards as a,categories as b').spread(function (results, metadata) {
+    sequelize.query('select a.id,a.title,b.category,a.content,atime from boards as a,categories as b where a.category= b.id').spread(function (results, metadata) {
             res.send(results)
         }, 
         function (err) { 
@@ -56,7 +56,7 @@ app.get('/all/data',(req, res) => {
 })
 app.post('/se/data',(req, res) => {
     console.log(req.body)
-    sequelize.query('select a.id,a.title,b.category,a.content,atime from boards as a,categories as b where a.id = '+req.body.data).spread(function (results, metadata) {
+    sequelize.query('select a.id,a.title,b.category,a.content,atime from boards as a,categories as b where a.category= b.id && a.id = '+req.body.data).spread(function (results, metadata) {
         res.send(results)
     },
     function(err){
@@ -65,7 +65,7 @@ app.post('/se/data',(req, res) => {
 })
 app.post('/categoryse/data',(req, res) => {
     console.log(req.body)
-    sequelize.query('select a.id,a.title,b.category,a.content,atime from boards as a,categories as b where b.id = '+req.body.data).spread(function (results, metadata) {
+    sequelize.query('select a.id,a.title,b.category,a.content,atime from boards as a,categories as b where a.category= b.id && b.id = '+req.body.data).spread(function (results, metadata) {
         res.send(results)
     },
     function(err){
@@ -91,6 +91,51 @@ app.post('/sel/data',(req, res) => {
 app.post('/loginact/data',(req, res) => {
     
     sequelize.query("select * from admins where userid='"+req.body.data+ "'and pass ='"+req.body.data2+"';").spread(function (results, metadata) {
+        res.send(results)
+    },
+    function(err){
+        console.log('err=>'+err)
+    });
+})
+app.post('/categoryin/data',(req, res) => {
+    
+    sequelize.query("insert into categories(category) values ('"+req.body.data+"');").spread(function (results, metadata) {
+        res.send(results)
+    },
+    function(err){
+        console.log('err=>'+err)
+    });
+})
+app.post('/boardin/data',(req, res) => {
+    
+    sequelize.query("insert into boards(title,category,content, atime) value('"+req.body.title+"',(select id from categories where category='"+req.body.category+"'),'"+req.body.content+"',now());").spread(function (results, metadata) {
+        res.send(results)
+    },
+    function(err){
+        console.log('err=>'+err)
+    });
+})
+app.post('/delete/data',(req, res) => {
+    
+    sequelize.query("delete from boards as a where a.id="+req.body.data).spread(function (results, metadata) {
+        res.send(results)
+    },
+    function(err){
+        console.log('err=>'+err)
+    });
+})
+app.post('/set/data',(req, res) => {
+    
+    sequelize.query("select a.id,a.title,b.category,a.content,atime from boards as a,categories as b where a.category= b.id && a.id ="+req.body.data).spread(function (results, metadata) {
+        res.send(results)
+    },
+    function(err){
+        console.log('err=>'+err)
+    });
+})
+app.post('/update/data',(req, res) => {
+    
+    sequelize.query("update boards as a set a.title = '"+req.body.title+"' content = '"+req.body.content+"' where a.id ="+req.body.id+";").spread(function (results, metadata) {
         res.send(results)
     },
     function(err){

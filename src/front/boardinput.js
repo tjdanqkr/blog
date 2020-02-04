@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import axios from 'axios';
 
 
 class boardinput extends Component {
@@ -8,40 +8,73 @@ class boardinput extends Component {
         this.state = {
             title: "",
             categoryadd: "",
-            content: ""
-
+            content: "",
+            category:""
         }
     }
+    _categorychange =(e) =>{
+        this.setState({ category: e.target.value });
+    }
     _settitle = (e) => {
-        const { title } = e.target.value;
-        this.setState({ title: title });
+        this.setState({ title: e.target.value });
     }
     _setcontent = (e) => {
-        const { content } = e.target.value;
-        this.setState({ content: content });
+        this.setState({ content: e.target.value });
     }
     _setcategory = (e) => {
-        const { categoryadd } = e.target.value;
-        this.setState({ categoryadd: categoryadd });
+        this.setState({ categoryadd: e.target.value});
+    }
+    _insertcategory = async(e) =>{
+        e.preventDefault();
+        const { categoryadd } = this.state;
+        const res = await axios('/categoryin/data', {
+            method: 'POST',
+            data: { 'data': categoryadd},
+            
+            headers: new Headers()
+          })
+        window.location.reload();
+        
+      
+    }
+    _inserttitle = async(e) =>{
+        e.preventDefault();
+        const { title } = this.state;
+        const {content} = this.state;
+        const {category} = this.state;
+        const res = await axios('/boardin/data', {
+            method: 'POST',
+            data: { 'title': title,
+                    'content': content,
+                    'category': category    
+            },
+            
+            headers: new Headers()
+          })
+        window.location.reload();
+        
+      
     }
 
     render() {
         const { title } = this.state.title;
         const { content } = this.state.content;
         const { categoryadd } = this.state.categoryadd;
+        
         return (
             <div className="boardmain">
                 <div className="boardinput">
-                    <form>
+                    <form onSubmit={this._inserttitle} method="post">
 
                         <ul>
                             <li><h1>글 쓰기 </h1></li>
                             <li><input value={title} onChange={this._settitle} placeholder="title" /></li>
-                            <li><select>
+                            <li><select value={this.state.category} onChange={this._categorychange}>
+                                <option>-----</option>
                                 {(this.props.category.length !== 0 ? this.props.category.map((el, key) => {
 
                                     return (
-                                        <option key={key}>{el.category}</option>
+                                        <option key={key} value={el.category}>{el.category}</option>
                                     )
                                 }) : <option>없습니다.</option>)}
                             </select></li>
@@ -53,7 +86,7 @@ class boardinput extends Component {
                     </form>
                 </div>
                 <div className="incate">
-                    <form>
+                    <form onSubmit={this._insertcategory} method="post">
                         <ul>
                             <li><h1>카테고리 추가 </h1></li>
                             <li><input placeholder="카테고리 이름" value={categoryadd} onChange={this._setcategory}></input>     </li>

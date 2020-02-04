@@ -10,18 +10,13 @@ class login extends Component{
         }
     }
     handlelogin=(e)=> {
-        const  value  = e.target.value;
-        
         this.setState({
-          uid : value
+          uid : e.target.value
         });
       }
     handleloginpass=(e)=>{
-        
-        const  value  = e.target.value;
-        
         this.setState({
-          pass : value
+          pass : e.target.value
         });
     
       }

@@ -2,7 +2,12 @@ module.exports = (sequelize, DataTypes) => {
     return sequelize.define(
       'board',
       {
-        
+        id: {
+          type : DataTypes.INTEGER(),
+          autoIncrement: true,
+          primaryKey: true
+
+        },
         title: {
             type: DataTypes.STRING(100),
             allowNull : true

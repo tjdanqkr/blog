@@ -5,8 +5,7 @@ import axios from 'axios';
 import Login from './login';
 import Loginsusses from './loginsusses';
 import Boardinput from './boardinput';
-
-
+import Update from './update';
 
 
 class header extends Component {
@@ -21,7 +20,12 @@ class header extends Component {
       idv: '',
       mkbool: false,
       login : false,
-      boardp: false
+      boardp: false,
+      updatelist:[],
+      title: "",
+      categoryadd: "",
+      content: "",
+      category:""
     }
 
   }
@@ -171,7 +175,58 @@ class header extends Component {
     this.setState({boardp:plag});
     
   }
+  _delete= async(e) =>{
+    const id = e.target.value;
+    
+    const res = await axios('/delete/data', {
+      method: 'POST',
+      data: { 'data':  id},
+      headers: new Headers()
+    })
+  }
+  _update= async(e) =>{
+    e.preventDefault();
+    const id = e.target.value;
+    this.setState({ idv: e.target.value });
+    const res = await axios('/set/data', {
+      method: 'POST',
+      data: { 'data':  id},
+      headers: new Headers()
+    })
+    if (res.data[0] === undefined) {
+      let cover = [];
+      cover.push(res.data);
 
+      return this.setState({ updatelist: cover })
+    }
+    console.log(res.data.length);
+    this.setState({ updatelist: res.data });
+
+  
+  }
+  _updatego = async (e) => {
+    e.preventDefault();
+    const res = await axios('/update/data', {
+      method: 'POST',
+      data: { 'id': this.state.id ,
+              'title': this.state.title,
+              'category': this.state.category,
+              'content': this.state.content,
+             },
+      headers: new Headers()
+    })
+    if (res.data) {
+      if (res.data[0] === undefined) {
+        let cover = [];
+        cover.push(res.data);
+
+        return this.setState({ list2: cover })
+      }
+      this.setState({ list2: res.data });
+
+    }
+
+  }
   render() {
     const { list } = this.state;
     const value = this.value;
@@ -181,6 +236,7 @@ class header extends Component {
     const {mkbool} =this.state;
     const {login} =this.state;
     const {boardp}=this.state;
+    const {updatelist}=this.state;
     return (
       <div>
         <div className="header">
@@ -227,13 +283,17 @@ class header extends Component {
             </div>
           </div>
           <div className="main">
-            {mkbool ? boardp? (<Boardinput category={list3}></Boardinput>):login?(list2.length !== 0 ? list2.map((el, key) => {
+            {mkbool ? boardp? (<Boardinput category={list3}></Boardinput>):login?updatelist.length!==0? <Update updatelist={updatelist}></Update>
+            :(list2.length !== 0 ? list2.map((el, key) => {
               
               return (
                 <div className="gul" key={key}>
+                  
                   <h1>{el.title}</h1><p>카테고리 : {el.category}</p><br></br>
                   <p>내용: {el.content} </p>
                   <p>시간: {el.atime}</p>
+                  {login ? <div><button value={el.id} onClick={this._update}>수정</button> <button value={el.id} onClick={this._delete}>삭제</button></div>: null}
+                  
                 </div>
               )
             }): (<h2>없습니다.</h2>)) :(<Login loginac={this.loact}></Login>):
