@@ -30,13 +30,14 @@ app.get('/header/data',(req, res) => {
 })
 
 app.get('/new/data',(req, res) => {
-    Board.findAll({
-        Order: 'atime DESC',
-        limit: 5
-    })
-    .then(result => {res.send(result)})
-    .catch(err => {throw err})
+    sequelize.query('select * from boards order by atime desc limit 5;').spread(function (results, metadata) {
+        res.send(results)
+    }, 
+    function (err) { 
+        console.log('err => ' + err);
+    });
 })
+
 
 // app.get('/all/data',(req, res) => {
 //     Board.findAll()
