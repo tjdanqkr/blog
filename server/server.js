@@ -135,7 +135,7 @@ app.post('/set/data',(req, res) => {
 })
 app.post('/update/data',(req, res) => {
     
-    sequelize.query("update boards as a set a.title = '"+req.body.title+"' content = '"+req.body.content+"' where a.id ="+req.body.id+";").spread(function (results, metadata) {
+    sequelize.query("update boards set title = '"+req.body.title+"',category =(select id from categories where category='"+req.body.category+"'), content = '"+req.body.content+"' where id = "+req.body.id+";").spread(function (results, metadata) {
         res.send(results)
     },
     function(err){

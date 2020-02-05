@@ -159,7 +159,7 @@ class header extends Component {
   }
   mkgul = (e) =>{
     this.setState({ mkbool : true });
-    if(this.state.mkbool==false){
+    if(this.state.mkbool===false){
       return 0;
     }
     
@@ -186,11 +186,10 @@ class header extends Component {
   }
   _update= async(e) =>{
     e.preventDefault();
-    const id = e.target.value;
     this.setState({ idv: e.target.value });
     const res = await axios('/set/data', {
       method: 'POST',
-      data: { 'data':  id},
+      data: { 'data':  this.state.idv},
       headers: new Headers()
     })
     if (res.data[0] === undefined) {
@@ -204,29 +203,7 @@ class header extends Component {
 
   
   }
-  _updatego = async (e) => {
-    e.preventDefault();
-    const res = await axios('/update/data', {
-      method: 'POST',
-      data: { 'id': this.state.id ,
-              'title': this.state.title,
-              'category': this.state.category,
-              'content': this.state.content,
-             },
-      headers: new Headers()
-    })
-    if (res.data) {
-      if (res.data[0] === undefined) {
-        let cover = [];
-        cover.push(res.data);
 
-        return this.setState({ list2: cover })
-      }
-      this.setState({ list2: res.data });
-
-    }
-
-  }
   render() {
     const { list } = this.state;
     const value = this.value;
@@ -237,6 +214,7 @@ class header extends Component {
     const {login} =this.state;
     const {boardp}=this.state;
     const {updatelist}=this.state;
+    const {idv} =this.state;
     return (
       <div>
         <div className="header">
@@ -271,7 +249,6 @@ class header extends Component {
               <ul>
                 {list3.length !== 0 ? list3.map((el, key) => {
                   return (
-
                     <li><button value={el.id} onClick={this._getData5}>{el.category}</button></li>
                   )
                 }) : (<li>없습니다.</li>)
@@ -283,7 +260,7 @@ class header extends Component {
             </div>
           </div>
           <div className="main">
-            {mkbool ? boardp? (<Boardinput category={list3}></Boardinput>):login?updatelist.length!==0? <Update updatelist={updatelist}></Update>
+            {mkbool ? boardp? (<Boardinput category={list3}></Boardinput>):login?updatelist.length!==0? <Update updatelist={updatelist} idv={idv} list3={list3}></Update>
             :(list2.length !== 0 ? list2.map((el, key) => {
               
               return (
