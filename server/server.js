@@ -81,7 +81,7 @@ app.get('/category/data',(req, res) => {
     });
 })
 app.post('/sel/data',(req, res) => {
-    sequelize.query('select a.id,a.title,b.category,a.content,atime from boards as a,categories as b where a.title like "%'+req.body.data+'%"').spread(function (results, metadata) {
+    sequelize.query('select a.id,a.title,b.category,a.content,atime from boards as a,categories as b where a.category= b.id&&a.title like "%'+req.body.data+'%"').spread(function (results, metadata) {
         res.send(results)
     },
     function(err){
